@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> 
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"> 
+  <head> 
+    <meta http-equiv="content-type" content="text/xhtml; charset=utf-8" /> 
+    <title>Dynamic Select Statements</title> 
+<script type="text/javascript">
+ //<![CDATA[ 
+ // array of possible countries in the same order as they appear in the country selection list 
+ var countryLists = new Array(4) 
+ countryLists["empty"] = ["Select type"]; 
+ countryLists["Tops"] = ["Shirt", "Jacket", "Tshirt","Kurtas"]; 
+ countryLists["Bottoms"] = ["Jeans", "Trousers", "Plazos"]; 
+ 
+  
+ function countryChange(selectObj) { 
+ // get the index of the selected option 
+ var idx = selectObj.selectedIndex; 
+ // get the value of the selected option 
+ var which = selectObj.options[idx].value; 
+ // use the selected option value to retrieve the list of items from the countryLists array 
+ cList = countryLists[which]; 
+ // get the country select element via its known id 
+ var cSelect = document.getElementById("country"); 
+ // remove the current options from the country select 
+ var len=cSelect.options.length; 
+ while (cSelect.options.length > 0) { 
+ cSelect.remove(0); 
+ } 
+ var newOption; 
+
+
+
+ // create new options 
+ for (var i=0; i<cList.length; i++) { 
+ newOption = document.createElement("option"); 
+ newOption.value = cList[i];  // assumes option string and value are the same 
+ newOption.text=cList[i]; 
+ // add the new option 
+ try { 
+ cSelect.add(newOption);  // this will fail in DOM browsers but is needed for IE 
+ } 
+ catch (e) { 
+ cSelect.appendChild(newOption); 
+ } 
+ } 
+ } 
+//]]>
+</script>
+</head>
+<body>
+  <form name="f1">
+  Gender: <input type="radio" name="g">Male
+ <input type="radio" name="g" >Female
+  <br>
+
+  <noscript>This page requires JavaScript be available and enabled to function properly</noscript>
+  <label for="continent">Select Type</label>
+  <select id="continent" onchange="countryChange(this);">
+    <option value="empty">Select Type</option>
+    <option value="Tops">Tops</option>
+    <option value="Bottoms">Bottoms</option>
+ -   <!--<option value="Asia">Asia</option>
+    <option value="Europe">Europe</option>-->
+  </select>
+  <br/>
+  <label for="country">Select clothing</label>
+  <select id="country">
+    <option value="0">Select clothing</option>
+  </select>
+
+  <br>
+
+  <input type="submit" name="submit" value="add">
+</body>
+ </html>
